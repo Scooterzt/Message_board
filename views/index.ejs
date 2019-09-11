@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+    body{
+        text-align: center;
+        margin: auto 10px;
+    }
+    .wall{
+        width: 700px;
+        margin: 0 auto;
+        text-align: left;
+        background-image: linear-gradient(white, lightgrey)
+    }
+    .comments{
+        margin-left: 20px;
+    }
+    p{
+        margin-left: 35px;
+    }
+    .buttonS{
+        width: 150px;
+        background-image:radial-gradient(#008CBA, darkblue);
+        font-size: 12px;
+        border-radius: 4px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        color: white;
+    }
+    </style>
+    <title>Messages</title>
+</head>
+<body>
+        <% if(messages.registration) { %>
+            <% for (var x of messages.registration) { %>
+                <h3>Error: <%= x %></h3>
+            <% } %>
+        <% } %>
+    <h2>The Dojo Message Board</h2>
+    <hr>
+    <div class="wall">
+        <form action="/createMessage" method="post">
+            <label for="m_name">Name:</label>
+            <input type="text" name="m_name" placeholder="name..."><br>
+            <textarea name="message_text" cols="26" rows="3" placeholder="message..."></textarea><br>
+            <input type="submit" class="buttonS" value="Add Message">
+        </form>
+       <div class="comments">
+        <% for(var message of allmessages) {%>
+            <h4>Name: <%= message.m_name %> </h4>
+            <h5>Message: <%= message.message_text %> </h5>
+            <% for(var com of message.comments) {%>
+                <p>Name: <%= com.c_name%> </p>
+                <p>Comment: <%= com.comment_text %> </p>
+            <%}%>
+            <form action="/createComment/<%= message.id %>" method="post" >
+                <label for="c_name">Name:</label>
+                <input type="text" name="c_name" placeholder="name..."><br>
+                <textarea name="comment_text" cols="26" rows="2" placeholder="comment..."></textarea><br>
+                <input type="submit" class="buttonS" value="comment">
+            </form>
+        <% } %>
+       </div>
+    </div>
+</body>
+</html>
